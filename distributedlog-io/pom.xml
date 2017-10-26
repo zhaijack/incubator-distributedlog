@@ -30,6 +30,7 @@
   <name>Apache DistributedLog :: IO</name>
   <modules>
     <module>dlfs</module>
+    <module>statestore</module>
   </modules>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
