@@ -18,6 +18,7 @@
 package org.apache.distributedlog;
 
 import static com.google.common.base.Charsets.UTF_8;
+
 import com.google.common.base.Optional;
 import io.netty.channel.EventLoopGroup;
 import io.netty.util.HashedWheelTimer;
@@ -41,10 +42,8 @@ import org.apache.distributedlog.ZooKeeperClient.DigestCredentials;
 import org.apache.distributedlog.common.concurrent.FutureUtils;
 import org.apache.distributedlog.exceptions.AlreadyClosedException;
 import org.apache.distributedlog.exceptions.DLInterruptedException;
-import org.apache.distributedlog.exceptions.ZKException;
 import org.apache.distributedlog.net.NetUtils;
 import org.apache.distributedlog.util.ConfUtils;
-import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,7 +84,7 @@ public class BookKeeperClient {
             String ledgersPath,
             EventLoopGroup eventLoopGroup,
             StatsLogger statsLogger, HashedWheelTimer requestTimer)
-        throws IOException, InterruptedException, KeeperException {
+        throws IOException, InterruptedException, BKException {
         ClientConfiguration bkConfig = new ClientConfiguration();
         bkConfig.setAddEntryTimeout(conf.getBKClientWriteTimeout());
         bkConfig.setReadTimeout(conf.getBKClientReadTimeout());
@@ -167,8 +166,8 @@ public class BookKeeperClient {
             commonInitialization(conf, ledgersPath, eventLoopGroup, statsLogger, requestTimer);
         } catch (InterruptedException e) {
             throw new DLInterruptedException("Interrupted on creating bookkeeper client " + name + " : ", e);
-        } catch (KeeperException e) {
-            throw new ZKException("Error on creating bookkeeper client " + name + " : ", e);
+        } catch (BKException e) {
+            throw new IOException("Error on creating bookkeeper client " + name + " : ", e);
         }
 
         if (ownZK) {
