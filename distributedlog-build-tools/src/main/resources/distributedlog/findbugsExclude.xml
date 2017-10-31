@@ -182,4 +182,10 @@
     <Class name="org.apache.distributedlog.messaging.RRMultiWriter" />
     <Bug pattern="EI_EXPOSE_REP2" />
   </Match>
+  <!-- state-store -->
+  <Match>
+    <!-- it is safe to store external bytes reference here. //-->
+    <Class name="org.apache.distributedlog.statestore.impl.mvcc.op.proto.ProtoPutOpImpl" />
+    <Bug pattern="EI_EXPOSE_REP" />
+  </Match>
 </FindBugsFilter>

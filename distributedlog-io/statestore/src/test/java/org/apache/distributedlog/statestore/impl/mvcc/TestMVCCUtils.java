@@ -16,32 +16,29 @@
  * limitations under the License.
  */
 
-package org.apache.distributedlog.common.coder;
+package org.apache.distributedlog.statestore.impl.mvcc;
+
+import static org.apache.distributedlog.statestore.impl.mvcc.MVCCUtils.NOP_CMD;
+import static org.apache.distributedlog.statestore.impl.mvcc.MVCCUtils.newCommand;
+import static org.apache.distributedlog.statestore.impl.mvcc.MVCCUtils.newLogRecordBuf;
+import static org.junit.Assert.assertEquals;
 
 import io.netty.buffer.ByteBuf;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import org.apache.distributedlog.common.util.ByteBufUtils;
+import org.apache.distributedlog.statestore.proto.Command;
+import org.junit.Test;
 
 /**
- * A byte array {@link Coder}.
+ * Test case for {@link MVCCUtils}.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ByteArrayCoder implements Coder<byte[]> {
+public class TestMVCCUtils {
 
-    public static ByteArrayCoder of() {
-        return INSTANCE;
+    @Test
+    public void testNewLogRecordBuf() {
+        Command command = NOP_CMD;
+        ByteBuf buffer = newLogRecordBuf(command);
+        assertEquals(command.getSerializedSize(), buffer.readableBytes());
+        Command another = newCommand(buffer);
+        assertEquals(command, another);
     }
 
-    private static final ByteArrayCoder INSTANCE = new ByteArrayCoder();
-
-    @Override
-    public byte[] encode(byte[] value) {
-        return value;
-    }
-
-    @Override
-    public byte[] decode(ByteBuf data) {
-        return ByteBufUtils.getArray(data);
-    }
 }
