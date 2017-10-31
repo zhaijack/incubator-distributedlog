@@ -22,7 +22,6 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.function.Supplier;
-import javax.annotation.concurrent.GuardedBy;
 import org.apache.distributedlog.common.util.Permit;
 
 /**
@@ -54,11 +53,8 @@ public class AsyncSemaphore {
         }
     };
 
-    @GuardedBy("this")
     private Optional<Throwable> closed = Optional.empty();
-    @GuardedBy("this")
     private final LinkedList<CompletableFuture<Permit>> waitq;
-    @GuardedBy("this")
     private int availablePermits;
 
     public AsyncSemaphore(int initialPermits,
