@@ -25,7 +25,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import javax.annotation.concurrent.NotThreadSafe;
 import org.apache.distributedlog.common.util.ByteBufUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,7 +105,6 @@ import org.slf4j.LoggerFactory;
  *
  * @see LogRecordWithDLSN
  */
-@NotThreadSafe
 public class LogRecord {
 
     private static final Logger LOG = LoggerFactory.getLogger(LogRecord.class);
