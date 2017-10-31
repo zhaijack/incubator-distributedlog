@@ -16,32 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.distributedlog.common.coder;
-
-import io.netty.buffer.ByteBuf;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import org.apache.distributedlog.common.util.ByteBufUtils;
-
 /**
- * A byte array {@link Coder}.
+ * Protobuf based op implementations.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ByteArrayCoder implements Coder<byte[]> {
-
-    public static ByteArrayCoder of() {
-        return INSTANCE;
-    }
-
-    private static final ByteArrayCoder INSTANCE = new ByteArrayCoder();
-
-    @Override
-    public byte[] encode(byte[] value) {
-        return value;
-    }
-
-    @Override
-    public byte[] decode(ByteBuf data) {
-        return ByteBufUtils.getArray(data);
-    }
-}
+package org.apache.distributedlog.statestore.impl.mvcc.op.proto;

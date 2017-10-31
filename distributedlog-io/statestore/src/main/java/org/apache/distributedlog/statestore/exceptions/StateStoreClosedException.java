@@ -16,32 +16,16 @@
  * limitations under the License.
  */
 
-package org.apache.distributedlog.common.coder;
-
-import io.netty.buffer.ByteBuf;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import org.apache.distributedlog.common.util.ByteBufUtils;
+package org.apache.distributedlog.statestore.exceptions;
 
 /**
- * A byte array {@link Coder}.
+ * Exceptions are thrown when a state store is closed.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ByteArrayCoder implements Coder<byte[]> {
+public class StateStoreClosedException extends StateStoreException {
 
-    public static ByteArrayCoder of() {
-        return INSTANCE;
-    }
+    private static final long serialVersionUID = 1L;
 
-    private static final ByteArrayCoder INSTANCE = new ByteArrayCoder();
-
-    @Override
-    public byte[] encode(byte[] value) {
-        return value;
-    }
-
-    @Override
-    public byte[] decode(ByteBuf data) {
-        return ByteBufUtils.getArray(data);
+    public StateStoreClosedException(String storeName) {
+        super("State store " + storeName + " is already closed");
     }
 }
